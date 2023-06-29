@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 def input():
     return sys.stdin.readline().rstrip()
@@ -7,33 +8,31 @@ s = input().split(' ')
 n = int(s[0])
 k = int(s[1])
 
-live = [True] * n
+
+live = deque()
+tmp = deque()
+
+for i in range(n):
+    live.append(i+1)
 
 res = '<'
 idx = 0
 
-for index, isLive in enumerate(live, 0):
-    
-    if(isLive == True):
+for i in range(n):
+    for j in range(k-1): 
+        if(len(live) == 0) :
+            live.append(tmp.popleft())
+        tmp.append(live.popleft())
+    if(len(live) == 0):
+        res+=str(tmp.popleft())
+    else:
+        res+=str(live.popleft())
+    for t in range(len(tmp)):
+        live.append(tmp.popleft())
 
-
-for i in range(1,n+1):
-    cnt = 0
-    tmp = idx
-    while(True):
-        if(tmp >= n):
-            tmp %= n
-        if(live[tmp] == True):
-            cnt +=1
-            if(cnt == k):
-                live[tmp] = False
-                res += str(tmp+1)
-                idx = tmp
-                break
-        tmp += 1
-
-    if i != n:
+    if(i != n-1):
         res += ', '
+
 res+='>'
 
 print(res)
