@@ -18,3 +18,5 @@ def solution():
         card.append(card.popleft())
 
     return card.pop()
+
+print(solution())

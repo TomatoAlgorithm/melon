@@ -10,25 +10,23 @@ def solution():
     brackets = input()
 
     couple = []
+    newList = []
 
     for bIdx in range(len(brackets)):
         b = brackets[bIdx]
         if(b == '('):
             couple.append(bIdx)
         elif(b == ')'):
-            for i in range(len(couple)-1,-1,-1):
-                    if (isinstance(couple[i],int)):
-                         couple[i] = (couple[i],bIdx)
-                         break
+            newList.append((couple.pop(),bIdx))
 
-    OXs = [True]*len(couple)
+    OXs = [True]*len(newList)
 
-    dfs(0,OXs,couple,brackets)
+    dfs(0,OXs,newList,brackets)
     sentences.remove(brackets)
     sentences = list(set(sentences))
     sentences.sort()
-    for i in range(0,len(sentences)):
-        print(sentences[i])
+    
+    print(*sentences, sep='\n')
 
 
 def dfs(depth, OXs, couple, sentence):
