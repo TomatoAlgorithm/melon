@@ -23,33 +23,36 @@ def main(f=None):
     # ######## INPUT AREA BEGIN ##########
 
     n = int(input())
+    starList = printStrar(n)
 
-    for _ in range(n):
-        x1,y1,r1,x2,y2,r2 = map(int,input().split(' '))
-        p1 = Point2D(x1,y1)
-        p2 = Point2D(x2,y2)
-
-        a = p2.x - p1.x    # 선 a의 길이
-        b = p2.y - p1.y    # 선 b의 길이
-        
-        d = math.sqrt((a * a) + (b * b))    # (a * a) + (b * b)의 제곱근을 구함
-
-        if d == 0 and r2 == r1:
-            print(-1)
-        elif d < r1 + r2 and abs(r2-r1) < d:
-            print(2)
-        elif d == r1+r2 or d == abs(r2-r1):
-            print(1)
-        elif d > r1 + r2 or d < abs(r2-r1) or (d==0 and r2!=r1):
-            print(0)
-
-        
+    for starLine in starList:
+        print(*starLine,sep='')
     
-class Point2D:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
     # ######## INPUT AREA END ############
+def printStrar(n):
+    # 메소드 안에서
+    # 분할하고 합치는거 있어야 됨
+    # 분할하는게 먼저 나오고
+    # 그 다음에 합치는걸로
+    starList = []
+
+    if n == 1:
+        return ['*']
+    else:
+        for i in range(3):
+            line=[]
+            for j in range(3):
+                if i == 1 and j == 1:
+                    newLine = []
+                    for k in range(n//3):
+                        newLine.append(' ' *(n//3))
+                    line.append(newLine) 
+                else:
+                    line.append(printStrar(n//3))
+            for k in range(n//3):
+                newLine = line[0][k] + line[1][k] + line[2][k]
+                starList.append(newLine)
+        return starList
 
 # TEMPLATE ###############################
 
